@@ -25,10 +25,13 @@ private:
 
 /* Position registers */
 #define JMC_REG_PP      0x40
-#define JMC_REG_RD      0x41
+#define JMC_REG_PD      0x41
 #define JMC_REG_PF      0x42
 #define JMC_REG_POSFIL  0x45
-#define JMC_REG_POSERR  0x48
+#define JMC_REG_PMXERR  0x48
+#define JMC_REG_POSCMD  0x85
+#define JMC_REG_POSRL   0x86
+#define JMC_REG_POSERR  0x87
 
 /* Velocity registers */
 #define JMC_REG_VP      0x50
@@ -39,7 +42,7 @@ private:
 #define JMC_REG_CONVEL  0x55
 #define JMC_REG_VELLIM  0x56
 #define JMC_REG_ACC     0x57
-#define JMC_REG_DCC     0x58
+#define JMC_REG_DEC     0x58
 
 /* Current registers */
 #define JMC_REG_CP      0x60
@@ -52,5 +55,7 @@ private:
 #define JMC_REG_OVRVOL  0x3b
 #define JMC_REG_UNDVOL  0x3c
 #define JMC_REG_I2TLIM  0x3d
+
+
 
 #endif // JMC_DRIVER_H

@@ -789,15 +789,9 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QPushButton" name="live_button">
+           <widget class="QCheckBox" name="live_box">
             <property name="text">
-             <string>Live Changes</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
+             <string>Live</string>
             </property>
            </widget>
           </item>

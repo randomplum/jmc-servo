@@ -56,6 +56,7 @@ void MainWindow::on_connect_button_clicked()
         delete serial_port;
         serial_port = NULL;
         this->ui->connect_button->setText("Connect");
+        ui->live_box->setChecked(false);
     }
 }
 
@@ -121,9 +122,211 @@ void MainWindow::on_readall_button_clicked()
     }
 }
 
-void MainWindow::on_live_button_clicked()
+void MainWindow::on_pp_spin_editingFinished()
 {
-
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_PP, static_cast<uint>(ui->pp_spin->value()));
+    }
 }
 
+void MainWindow::on_live_box_clicked()
+{
+    if(servo == NULL)
+    {
+        ui->live_box->setChecked(false);
+        return;
+    }
+/*
+    servo->write_reg(JMC_REG_PP, static_cast<uint>(ui->pp_spin->value()));
+    servo->write_reg(JMC_REG_PD, static_cast<uint>(ui->pd_spin->value()));
+    servo->write_reg(JMC_REG_PF, static_cast<uint>(ui->pf_spin->value()));
+    servo->write_reg(JMC_REG_POSFIL, static_cast<uint>(ui->posfil_spin->value()));
+    servo->write_reg(JMC_REG_PMXERR, static_cast<uint>(ui->poserr_spin->value()));
+    servo->write_reg(JMC_REG_VP, static_cast<uint>(ui->vp_spin->value()));
+    servo->write_reg(JMC_REG_VI, static_cast<uint>(ui->vi_spin->value()));
+    servo->write_reg(JMC_REG_VD, static_cast<uint>(ui->vd_spin->value()));
+    servo->write_reg(JMC_REG_AF, static_cast<uint>(ui->af_spin->value()));
+    servo->write_reg(JMC_REG_VELFIL, static_cast<uint>(ui->velfil_spin->value()));
+    servo->write_reg(JMC_REG_CONVEL, static_cast<uint>(ui->convel_spin->value()));
+    servo->write_reg(JMC_REG_VELLIM, static_cast<uint>(ui->vellim_spin->value()));
+    servo->write_reg(JMC_REG_ACC, static_cast<uint>(ui->acc_spin->value()));
+    servo->write_reg(JMC_REG_DEC, static_cast<uint>(ui->dec_spin->value()));
+    servo->write_reg(JMC_REG_CP, static_cast<uint>(ui->cp_spin->value()));
+    servo->write_reg(JMC_REG_CI, static_cast<uint>(ui->ci_spin->value()));
+    servo->write_reg(JMC_REG_CONCUR, static_cast<uint>(ui->concur_spin->value()));
+    servo->write_reg(JMC_REG_LIMCUR, static_cast<uint>(ui->limcur_spin->value()));
+    servo->write_reg(JMC_REG_TMPLIM, static_cast<uint>(ui->tmplim_spin->value()));
+    servo->write_reg(JMC_REG_OVRVOL, static_cast<uint>(ui->ovrvol_spin->value()));
+    servo->write_reg(JMC_REG_UNDVOL, static_cast<uint>(ui->undvol_spin->value()));
+    servo->write_reg(JMC_REG_I2TLIM, static_cast<uint>(ui->i2tlim_spin->value()));
+*/
+}
 
+void MainWindow::on_pd_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_PD, static_cast<uint>(ui->pd_spin->value()));
+    }
+}
+
+void MainWindow::on_pf_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_PF, static_cast<uint>(ui->pf_spin->value()));
+    }
+}
+
+void MainWindow::on_posfil_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_POSFIL, static_cast<uint>(ui->posfil_spin->value()));
+    }
+}
+
+void MainWindow::on_poserr_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_PMXERR, static_cast<uint>(ui->poserr_spin->value()));
+    }
+}
+
+void MainWindow::on_vp_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_VP, static_cast<uint>(ui->vp_spin->value()));
+    }
+}
+
+void MainWindow::on_vi_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_VI, static_cast<uint>(ui->vi_spin->value()));
+    }
+}
+
+void MainWindow::on_vd_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_VD, static_cast<uint>(ui->vd_spin->value()));
+    }
+}
+
+void MainWindow::on_af_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_AF, static_cast<uint>(ui->af_spin->value()));
+    }
+}
+
+void MainWindow::on_velfil_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_VELFIL, static_cast<uint>(ui->velfil_spin->value()));
+    }
+}
+
+void MainWindow::on_convel_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_CONVEL, static_cast<uint>(ui->convel_spin->value()));
+    }
+}
+
+void MainWindow::on_vellim_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_VELLIM, static_cast<uint>(ui->vellim_spin->value()));
+    }
+}
+
+void MainWindow::on_acc_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_ACC, static_cast<uint>(ui->acc_spin->value()));
+    }
+}
+
+void MainWindow::on_dec_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_DEC, static_cast<uint>(ui->dec_spin->value()));
+    }
+}
+
+void MainWindow::on_cp_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_CP, static_cast<uint>(ui->cp_spin->value()));
+    }
+}
+
+void MainWindow::on_ci_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_CI, static_cast<uint>(ui->ci_spin->value()));
+    }
+}
+
+void MainWindow::on_concur_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_CONCUR, static_cast<uint>(ui->concur_spin->value()));
+    }
+}
+
+void MainWindow::on_limcur_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_LIMCUR, static_cast<uint>(ui->limcur_spin->value()));
+    }
+}
+
+void MainWindow::on_tmplim_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_TMPLIM, static_cast<uint>(ui->tmplim_spin->value()));
+    }
+}
+
+void MainWindow::on_ovrvol_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_OVRVOL, static_cast<uint>(ui->ovrvol_spin->value()));
+    }
+}
+
+void MainWindow::on_undvol_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_UNDVOL, static_cast<uint>(ui->undvol_spin->value()));
+    }
+}
+
+void MainWindow::on_i2tlim_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_I2TLIM, static_cast<uint>(ui->i2tlim_spin->value()));
+    }
+}
