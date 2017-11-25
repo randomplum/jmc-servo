@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui serialport widgets
+QT       += charts core gui serialport widgets
 
 TARGET = jmc_servo
 TEMPLATE = app
