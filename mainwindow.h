@@ -4,6 +4,11 @@
 #include <QMainWindow>
 #include <QTextStream>
 #include <QSerialPort>
+#include <QTimer>
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QValueAxis>
+#include <QtCharts/QChart>
 #include "jmc_driver.h"
 
 namespace Ui {
@@ -69,11 +74,23 @@ private slots:
 
     void on_i2tlim_spin_editingFinished();
 
+    void on_poscmd_spin_editingFinished();
+
+    void on_timer_timeout();
+
+    void on_pushButton_4_clicked();
+
 private:
     Ui::MainWindow *ui;
     jmc_driver *servo = NULL;
     QTextStream out;
     QSerialPort *serial_port = NULL;
+    QTimer *timer;
+    QtCharts::QLineSeries *plot1;
+    QtCharts::QLineSeries *plot2;
+    QtCharts::QValueAxis *xaxis;
+    QtCharts::QChart *chart;
+    qreal m_x = 0;
 };
 
 #endif // MAINWINDOW_H

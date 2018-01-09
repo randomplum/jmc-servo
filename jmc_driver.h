@@ -29,9 +29,10 @@ private:
 #define JMC_REG_PF      0x42
 #define JMC_REG_POSFIL  0x45
 #define JMC_REG_PMXERR  0x48
+/* Position readback */
 #define JMC_REG_POSCMD  0x85
-#define JMC_REG_POSRL   0x86
-#define JMC_REG_POSERR  0x87
+#define JMC_REG_POSRL   0x87
+#define JMC_REG_POSERR  0x89
 
 /* Velocity registers */
 #define JMC_REG_VP      0x50
@@ -43,6 +44,10 @@ private:
 #define JMC_REG_VELLIM  0x56
 #define JMC_REG_ACC     0x57
 #define JMC_REG_DEC     0x58
+/* Velocity readback */
+#define JMC_REG_VELCMD  0x90
+#define JMC_REG_VELRL   0x91
+#define JMC_REG_VELERR  0x92
 
 /* Current registers */
 #define JMC_REG_CP      0x60

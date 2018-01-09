@@ -2,6 +2,10 @@
 #include "ui_mainwindow.h"
 #include <QtSerialPort/QSerialPortInfo>
 
+#define X_RANGE_COUNT 500
+#define X_RANGE_MAX X_RANGE_COUNT
+#define X_TIME_PER_DATA 5
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
@@ -13,6 +17,22 @@ MainWindow::MainWindow(QWidget *parent) :
     for (const QSerialPortInfo &info : infos) {
             ui->port_combo->addItem(info.portName());
     }
+    timer = new QTimer();
+    //timer->setInterval(1000);
+    connect(timer, SIGNAL(timeout()), this, SLOT(on_timer_timeout()));
+
+    chart = new QtCharts::QChart();
+    chart->legend()->setVisible(false);
+    chart->legend()->setAlignment(Qt::AlignBottom);
+    plot1 = new QtCharts::QLineSeries(chart);
+    plot2 = new QtCharts::QLineSeries(chart);
+    chart->addSeries(plot1);
+    chart->createDefaultAxes();
+    xaxis = new QtCharts::QValueAxis;
+    chart->setAxisX(xaxis, plot1);
+    xaxis->setTickCount(X_RANGE_MAX/40+1);
+    chart->axisX()->setRange(0, X_RANGE_MAX * X_TIME_PER_DATA);
+    ui->chart_view->setChart(chart);
 
 }
 
@@ -41,7 +61,7 @@ void MainWindow::on_connect_button_clicked()
             }
             if (failed == 0)
             {
-                this->ui->connect_button->setText("Disconnect");
+                this->ui->connect_button->setText(QObject::tr("Disconnect"));
                 return;
             }
         }
@@ -55,7 +75,7 @@ void MainWindow::on_connect_button_clicked()
         }
         delete serial_port;
         serial_port = NULL;
-        this->ui->connect_button->setText("Connect");
+        this->ui->connect_button->setText(QObject::tr("Connect"));
         ui->live_box->setChecked(false);
     }
 }
@@ -116,6 +136,8 @@ void MainWindow::on_readall_button_clicked()
             case 0x3c:ui->undvol_spin->setValue(read_value);
                 break;
             case 0x3d:ui->i2tlim_spin->setValue(read_value);
+                break;
+            case JMC_REG_POSCMD:ui->poscmd_spin->setValue(read_value);
                 break;
             }
         }
@@ -329,4 +351,68 @@ void MainWindow::on_i2tlim_spin_editingFinished()
     {
         servo->write_reg(JMC_REG_I2TLIM, static_cast<uint>(ui->i2tlim_spin->value()));
     }
+}
+
+void MainWindow::on_poscmd_spin_editingFinished()
+{
+    if (ui->live_box->checkState())
+    {
+        servo->write_reg(JMC_REG_POSCMD, static_cast<uint>(ui->poscmd_spin->value()));
+    }
+}
+
+void MainWindow::on_timer_timeout()
+{
+    int read_value;
+    int tmax, tmin;
+    tmax=-65535;
+    tmin=65535;
+    if (servo == NULL)
+    {
+        timer->stop();
+        ui->pushButton_4->setChecked(false);
+        return;
+    }
+    read_value = servo->read_reg(JMC_REG_POSRL);
+   // read_value = servo->read_reg(JMC_REG_VELRL);
+
+    m_x += 10;
+    if (read_value < 0)
+        plot1->append(m_x, plot1->at(plot1->count() -1).y());
+    else
+    {
+        if (read_value & 0x8000)
+            read_value = read_value - 65536;
+        plot1->append(m_x, read_value);
+    }
+
+    if (m_x > xaxis->max()) {
+        xaxis->setMax(m_x);
+        xaxis->setMin(m_x - X_RANGE_COUNT);
+    }
+
+    if (plot1->count() > X_RANGE_COUNT) {
+        plot1->remove(0);
+    }
+
+    for (int i = 0; i < plot1->count(); i++)
+    {
+        if (plot1->at(i).y() > tmax)
+            tmax = static_cast<int>(plot1->at(i).y());
+        if (plot1->at(i).y() < tmin)
+             tmin = static_cast<int>(plot1->at(i).y());
+    }
+
+    chart->axisY()->setMax(tmax + 5);
+    chart->axisY()->setMin(tmin - 5);
+
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    if (ui->pushButton_4->isChecked())
+        timer->start(10);
+    else
+        timer->stop();
+
 }
